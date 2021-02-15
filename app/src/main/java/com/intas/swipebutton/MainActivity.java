@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView itemsContainerRV;
+    RecyclerView recyclerView;
     RecyclerViewAdapter itemAdapter;
 
     @Override
@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
             data.add("Item " + i);
         }
 
-        itemsContainerRV = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         itemAdapter = new RecyclerViewAdapter(this, data);
         itemAdapter.notifyDataSetChanged();
-        itemsContainerRV.setAdapter(itemAdapter);
+        recyclerView.setAdapter(itemAdapter);
 
         SwipeHelper swipeHelper = new SwipeHelper(this) {
             @SuppressLint("ResourceType")
@@ -55,12 +55,12 @@ public class MainActivity extends AppCompatActivity {
                         final String item = itemAdapter.getData().get(pos);
                         itemAdapter.removeItem(pos);
 
-                        Snackbar snackbar = Snackbar.make(itemsContainerRV, "Item was removed from the list.", Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(recyclerView, "Item was removed from the list.", Snackbar.LENGTH_LONG);
                         snackbar.setAction("UNDO", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 itemAdapter.restoreItem(item, pos);
-                                itemsContainerRV.scrollToPosition(pos);
+                                recyclerView.scrollToPosition(pos);
                             }
                         });
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         };
         swipeHelper.setButtonMargin(10);
         swipeHelper.setButtonWidth(300);
-        swipeHelper.attachToRecyclerView(itemsContainerRV);
+        swipeHelper.attachToRecyclerView(recyclerView);
     }
 
     // эффект нажатия кнопки
