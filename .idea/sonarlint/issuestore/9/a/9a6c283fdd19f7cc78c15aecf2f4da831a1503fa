@@ -1,0 +1,53 @@
+
+X	java:S110 "<This class has 9 parents which is greater than 5 authorized.(²Ú±8øÙì„ø.
+^
+java:S1128"<Remove this unused import 'androidx.annotation.DrawableRes'.(¦ˆüîûÿÿÿÿ8³çèúø.
+a
+java:S1128"?Remove this unused import 'android.graphics.drawable.Drawable'.(Á‰º„ùÿÿÿÿ8³çèúø.
+‰
+java:S3252C"gUse static access with "com.google.android.material.snackbar.BaseTransientBottomBar" for "LENGTH_LONG".(ÚıúÓüÿÿÿÿ8øÙì„ø.
+]
+java:S1128";Remove this unused import 'android.graphics.BitmapFactory'.(âàºÍûÿÿÿÿ8³çèúø.
+P
+java:S1128"4Remove this unused import 'android.graphics.Bitmap'.(¾ì8³çèúø.
+J
+java:S1604W"(Make this anonymous inner class a lambda(¹Ïï—üÿÿÿÿ8İóß…ù.
+J
+java:S1604D"(Make this anonymous inner class a lambda(Ìé”ƒûÿÿÿÿ8øÙì„ø.
+V
+java:S1128"4Remove this unused import 'android.graphics.Canvas'.(õ«•üÿÿÿÿ8³çèúø.
+\
+java:S1854g":Remove this useless assignment to local variable "button".(‚Äïıÿÿÿÿÿ8³çèúø.
+b
+java:S1128"ERemove this unused import 'android.graphics.drawable.BitmapDrawable'.(³Ï÷8şÃô„ø.
+M
+java:S1128"0Remove this unused import 'java.io.InputStream'.(¹»º8³çèúø.
+J
+java:S1604="(Make this anonymous inner class a lambda(¹Ïï—üÿÿÿÿ8İóß…ù.
+J
+java:S1604d"(Make this anonymous inner class a lambda(¹Ïï—üÿÿÿÿ8İóß…ù.
+W
+java:S1128
+":Remove this unused import 'android.content.res.Resources'.(ÿÃÜó8øÛû„ø.
+p
+java:S1128"NRemove this unused import 'androidx.appcompat.content.res.AppCompatResources'.(ÅÚ¾¡üÿÿÿÿ8³çèúø.
+i
+java:S1128"GRemove this unused import 'android.graphics.drawable.GradientDrawable'.(·¸óşÿÿÿÿ8³çèúø.
+O
+java:S1128"-Remove this unused import 'android.os.Build'.(ãÇ¤Úıÿÿÿÿ8³çèúø.
+L
+java:S3740*"/Provide the parametrized type for this generic.(ö·âØ8øÙì„ø.
+M
+java:S1481g"+Remove this unused "button" local variable.(‚Äïıÿÿÿÿÿ8³çèúø.
+Q
+java:S1128"4Remove this unused import 'android.graphics.Matrix'.(ÑÏ’8³çèúø.
+h
+java:S1128"FRemove this unused import 'androidx.core.content.res.ResourcesCompat'.(ß‚£µıÿÿÿÿ8³çèúø.
+}
+java:S1128"[Remove this unused import 'androidx.vectordrawable.graphics.drawable.VectorDrawableCompat'.(ô—¹ûıÿÿÿÿ8³çèúø.
+J
+java:S1604w"(Make this anonymous inner class a lambda(¹Ïï—üÿÿÿÿ8Ş­†ù.
+\
+java:S1854z":Remove this useless assignment to local variable "button".(‚Äïıÿÿÿÿÿ8Ş­†ù.
+M
+java:S1481z"+Remove this unused "button" local variable.(‚Äïıÿÿÿÿÿ8Ş­†ù.
