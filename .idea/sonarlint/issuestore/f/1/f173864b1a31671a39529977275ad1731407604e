@@ -1,52 +1,52 @@
 
-Y
-java:S2696„"6Make the enclosing method "static" or remove this set.(¯±îùÿÿÿÿ8ò¦¨üø.
-c
-java:S2184ÿ"@Cast one of the operands of this integer division to a "double".(Ì¤Ôùÿÿÿÿ8©çèúø.
-S
-java:S2209”"5Change this instance-reference to a static reference.(Ìş­š8ò¦¨üø.
 [
-java:S5993`"9Change the visibility of this constructor to "protected".(ŠàŠæùÿÿÿÿ8²ºÁ‚ø.
-a
-java:S1155ô">Use isEmpty() to check whether the collection is empty or not.(¶¡Ğ’ıÿÿÿÿ8ÿå…ù.
-X
-java:S2696|"6Make the enclosing method "static" or remove this set.(î•˜Îøÿÿÿÿ8ò¦¨üø.
-P
-java:S1128"4Remove this unused import 'android.app.Application'.(¢¶ÿI8õ”Ú„ø.
-W
-java:S1128"5Remove this unused import 'android.graphics.Picture'.(©¢µëşÿÿÿÿ8©çèúø.
+java:S3516L"9Refactor this method to not always return the same value.(â¦àÊúÿÿÿÿ8œòº…ù.
+S
+java:S2209†"5Change this instance-reference to a static reference.(ò÷Ñ—8ò¦¨üø.
 p
-java:S3776Ñ"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(¼‡ë€8ÿå…ù.
-a
-java:S1155µ">Use isEmpty() to check whether the collection is empty or not.(ÄÓ¥üşÿÿÿÿ8˜“™†ù.
-c
-java:S2184ø"@Cast one of the operands of this integer division to a "double".(ßŒµ¬üÿÿÿÿ8©çèúø.
-\
-java:S1155ç">Use isEmpty() to check whether the collection is empty or not.(ó¥ŸÄ8Ïõñ…ù.
-^
-java:S2184û"@Cast one of the operands of this integer division to a "double".(³üÏ¼8©çèúø.
-N
-java:S1128"1Remove this unused import 'android.app.Activity'.(‡ÊÍÆ8íäúƒø.
-O
-java:S1128"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ8©çèúø.
-X
-java:S2209„"5Change this instance-reference to a static reference.(¯±îùÿÿÿÿ8ò¦¨üø.
-T
-java:S2696Œ"6Make the enclosing method "static" or remove this set.(ò÷Ñ—8ò¦¨üø.
-S
-java:S2209Œ"5Change this instance-reference to a static reference.(ò÷Ñ—8ò¦¨üø.
-Y	java:S125İ"<This block of commented-out lines of code should be removed.(Ÿ÷æş8ò¦¨üø.
-W
-java:S2209|"5Change this instance-reference to a static reference.(î•˜Îøÿÿÿÿ8ò¦¨üø.
-^	java:S125é"<This block of commented-out lines of code should be removed.(æË¯ùÿÿÿÿ8ò¦¨üø.
-[
-java:S3516J"9Refactor this method to not always return the same value.(â¦àÊúÿÿÿÿ8œòº…ù.
-T
-java:S2696”"6Make the enclosing method "static" or remove this set.(Ìş­š8ò¦¨üø.
-Y	java:S125ı"<This block of commented-out lines of code should be removed.(îüôÏ8ò¦¨üø.
+java:S3776Ã"RRefactor this method to reduce its Cognitive Complexity from 19 to the 15 allowed.(¼‡ë€8ÿå…ù.
 G
-java:S10683"+Remove this unused "context" private field.(êİç8ò¦¨üø.
-E
-java:S1604H"(Make this anonymous inner class a lambda(™ìºÑ8²ºÁ‚ø.
+java:S10685"+Remove this unused "context" private field.(êİç8ò¦¨üø.
+W
+java:S1128"5Remove this unused import 'android.graphics.Picture'.(©¢µëşÿÿÿÿ8©çèúø.
+c
+java:S2184¦"@Cast one of the operands of this integer division to a "double".(ßŒµ¬üÿÿÿÿ8©çèúø.
+N
+java:S1128"1Remove this unused import 'android.app.Activity'.(‡ÊÍÆ8íäúƒø.
+O
+java:S1128"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ8©çèúø.
 a
-java:S1155«">Use isEmpty() to check whether the collection is empty or not.(äã¿’şÿÿÿÿ8ıáš†ù.
+java:S1155æ">Use isEmpty() to check whether the collection is empty or not.(¶¡Ğ’ıÿÿÿÿ8ÿå…ù.
+Y	java:S125«"<This block of commented-out lines of code should be removed.(îüôÏ8ò¦¨üø.
+c
+java:S2184­"@Cast one of the operands of this integer division to a "double".(Ì¤Ôùÿÿÿÿ8©çèúø.
+^
+java:S2184©"@Cast one of the operands of this integer division to a "double".(³üÏ¼8©çèúø.
+[
+java:S5993b"9Change the visibility of this constructor to "protected".(ŠàŠæùÿÿÿÿ8²ºÁ‚ø.
+W
+java:S2209~"5Change this instance-reference to a static reference.(¯±îùÿÿÿÿ8ò¦¨üø.
+X
+java:S2696~"6Make the enclosing method "static" or remove this set.(¯±îùÿÿÿÿ8ò¦¨üø.
+E
+java:S1604J"(Make this anonymous inner class a lambda(™ìºÑ8²ºÁ‚ø.
+a
+java:S1155">Use isEmpty() to check whether the collection is empty or not.(äã¿’şÿÿÿÿ8ıáš†ù.
+P
+java:S1128"4Remove this unused import 'android.app.Application'.(¢¶ÿI8õ”Ú„ø.
+T
+java:S2696†"6Make the enclosing method "static" or remove this set.(ò÷Ñ—8ò¦¨üø.
+a
+java:S1155§">Use isEmpty() to check whether the collection is empty or not.(ÄÓ¥üşÿÿÿÿ8˜“™†ù.
+\
+java:S1155Ù">Use isEmpty() to check whether the collection is empty or not.(ó¥ŸÄ8Ïõñ…ù.
+‰
+java:S4165¹"kRemove this useless assignment; "clickListener" already holds the assigned value along all execution paths.(°ûşŞ8æÃèÆú.
+P
+java:S1128"3Remove this unused import 'android.os.SystemClock'.(÷Á±8æÃèÆú.
+_
+java:S1128"BRemove this unused import 'android.view.animation.AnimationUtils'.(µ¬8æÃèÆú.
+^
+java:S1128"<Remove this unused import 'android.annotation.SuppressLint'.(ÕƒóÏûÿÿÿÿ8æÃèÆú.
+Z
+java:S1128"=Remove this unused import 'android.view.animation.Animation'.(õò©²8æÃèÆú.

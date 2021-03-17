@@ -1,8 +1,5 @@
 package com.intas.swipebutton;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,19 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -41,28 +33,31 @@ import static androidx.recyclerview.widget.ItemTouchHelper.RIGHT;
 public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     private RecyclerView recyclerView;
-    private List<UnderlayButton> buttons;
-    private List<UnderlayButton> leftbuttons;
-    private GestureDetector gestureDetector;
+    private List<BelowButton> rightButtons;
+    private List<BelowButton> leftButtons;
+    private final GestureDetector gestureDetector;
+
     private int swipedPos = -1;
     private float swipeThreshold = 0.5f;
-    private Map<Integer, List<UnderlayButton>> buttonsBuffer;
-    private Map<Integer, List<UnderlayButton>> buttonsLeftBuffer;
 
-    private Queue<Integer> recoverQueue;
+    private final Map<Integer, List<BelowButton>> buttonsBuffer;
+    private final Map<Integer, List<BelowButton>> buttonsLeftBuffer;
+
     private Context context;
+    private final Queue<Integer> recoverQueue;
+
     private static int buttonMargin = 10;
     private static int buttonWidth = 200;
 
     private GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            for (UnderlayButton button : buttons) {
+            for (BelowButton button : rightButtons) {
                 if (button.onClick(e.getX(), e.getY())) {
                     break;
                 }
             }
-            for (UnderlayButton button : leftbuttons) {
+            for (BelowButton button : leftButtons) {
                 if (button.onClick(e.getX(), e.getY())) {
                     break;
                 }
@@ -98,15 +93,16 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     public SwipeHelper(Context context) {
         super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
 
-        this.buttons = new ArrayList<>();
-        this.leftbuttons = new ArrayList<>();
+        this.context = context;
+
+        this.rightButtons = new ArrayList<>();
+        this.leftButtons = new ArrayList<>();
 
         this.gestureDetector = new GestureDetector(context, gestureListener);
 
         buttonsBuffer = new HashMap<>();
         buttonsLeftBuffer = new HashMap<>();
 
-        this.context = context;
         recoverQueue = new LinkedList<Integer>() {
             @Override
             public boolean add(Integer o) {
@@ -149,23 +145,23 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         swipedPos = pos;
 
         if (buttonsBuffer.containsKey(swipedPos))
-            buttons = buttonsBuffer.get(swipedPos);
+            rightButtons = buttonsBuffer.get(swipedPos);
         else
-            buttons.clear();
+            rightButtons.clear();
 
         buttonsBuffer.clear();
-        if (buttons.size() > 0) {
-            swipeThreshold = 0.5f * buttons.size() * buttonWidth;
+        if (!rightButtons.isEmpty()) {
+            swipeThreshold = 0.5f * rightButtons.size() * buttonWidth;
         }
 
         if (buttonsLeftBuffer.containsKey(swipedPos))
-            leftbuttons = buttonsLeftBuffer.get(swipedPos);
+            leftButtons = buttonsLeftBuffer.get(swipedPos);
         else
-            leftbuttons.clear();
+            leftButtons.clear();
 
         buttonsLeftBuffer.clear();
-        if (leftbuttons.size() > 0) {
-            swipeThreshold = 0.5f * leftbuttons.size() * buttonWidth;
+        if (!leftButtons.isEmpty()) {
+            swipeThreshold = 0.5f * leftButtons.size() * buttonWidth;
         }
 
         recoverSwipedItem();
@@ -204,10 +200,10 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
             if (dX < 0) {
-                List<UnderlayButton> buffer = new ArrayList<>();
+                List<BelowButton> buffer = new ArrayList<>();
 
                 if (!buttonsBuffer.containsKey(pos)) {
-                    instantiateRightUnderlayButton(viewHolder, buffer);
+                    createRightButton(viewHolder, buffer);
                     buttonsBuffer.put(pos, buffer);
                 } else {
                     buffer = buttonsBuffer.get(pos);
@@ -217,10 +213,10 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
                 translationX = buffer.size() > 0 ? translationX - buttonMargin : translationX;
                 drawRightButtons(c, itemView, buffer, pos, translationX);
             } else if (dX > 0) {
-                List<UnderlayButton> buffer = new ArrayList<>();
+                List<BelowButton> buffer = new ArrayList<>();
 
                 if (!buttonsLeftBuffer.containsKey(pos)) {
-                    instantiateLeftUnderlayButton(viewHolder, buffer);
+                    createLeftButton(viewHolder, buffer);
                     buttonsLeftBuffer.put(pos, buffer);
                 } else {
                     buffer = buttonsLeftBuffer.get(pos);
@@ -237,7 +233,9 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
     }
 
     private synchronized void recoverSwipedItem() {
+
         while (!recoverQueue.isEmpty()) {
+
             int pos = recoverQueue.poll();
             if (pos > -1) {
                 recyclerView.getAdapter().notifyItemChanged(pos);
@@ -245,13 +243,13 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
-    private void drawRightButtons(Canvas c, View itemView, List<UnderlayButton> buffer, int pos, float dX) {
+    private void drawRightButtons(Canvas c, View itemView, List<BelowButton> buffer, int pos, float dX) {
         float right = itemView.getRight();
         float dButtonWidth = (-1) * dX / buffer.size();
 
-        for (UnderlayButton button : buffer) {
+        for (BelowButton button : buffer) {
             float left = right - dButtonWidth + buttonMargin;
-            button.onDraw(c, new RectF(
+            button.draw(c, new RectF(
                     left,
                     itemView.getTop(),
                     right,
@@ -261,14 +259,14 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         }
     }
 
-    private void drawLeftButtons(Canvas c, View itemView, List<UnderlayButton> buffer, int pos, float dX) {
+    private void drawLeftButtons(Canvas c, View itemView, List<BelowButton> buffer, int pos, float dX) {
 
         float left = itemView.getLeft();
         float dButtonWidth = (1) * dX / buffer.size();
 
-        for (UnderlayButton button : buffer) {
+        for (BelowButton button : buffer) {
             float right = left + dButtonWidth - buttonMargin;
-            button.onDraw(c, new RectF(
+            button.draw(c, new RectF(
                     left,
                     itemView.getTop(),
                     right,
@@ -285,15 +283,11 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         itemTouchHelper.attachToRecyclerView(this.recyclerView);
     }
 
-    public abstract void instantiateRightUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
+    public abstract void createRightButton(RecyclerView.ViewHolder viewHolder, List<BelowButton> belowButtons);
 
-    public abstract void instantiateLeftUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons);
+    public abstract void createLeftButton(RecyclerView.ViewHolder viewHolder, List<BelowButton> belowButtons);
 
-    public interface UnderlayButtonClickListener {
-        void onClick(View view, int pos);
-    }
-
-    public static class UnderlayButton extends View {
+    public static class BelowButton extends View {
 
         private String text = "";
         private int imageResId = 0;
@@ -306,11 +300,10 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
         private int pos;
         private RectF clickRegion;
         private Context context;
-        private UnderlayButtonClickListener clickListener;
+        private BelowButtonClickListener clickListener;
 
-        public UnderlayButton(Context context) {
+        public BelowButton(Context context) {
             super(context);
-            this.clickListener = clickListener;
             this.context = context;
         }
 
@@ -318,7 +311,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return text;
         }
 
-        public UnderlayButton setText(String text) {
+        public BelowButton setText(String text) {
             this.text = text;
             return this;
         }
@@ -327,7 +320,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return imageResId;
         }
 
-        public UnderlayButton setImage(int imageResId) {
+        public BelowButton setImage(int imageResId) {
             this.imageResId = imageResId;
             return this;
         }
@@ -336,8 +329,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return buttonBackgroundColor;
         }
 
-
-        public UnderlayButton setButtonBackgroundColor(int buttonBackgroundColor) {
+        public BelowButton setButtonBackgroundColor(int buttonBackgroundColor) {
             this.buttonBackgroundColor = buttonBackgroundColor;
             return this;
         }
@@ -346,7 +338,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return textColor;
         }
 
-        public UnderlayButton setTextColor(int textColor) {
+        public BelowButton setTextColor(int textColor) {
             this.textColor = textColor;
             return this;
         }
@@ -355,7 +347,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return imageColor;
         }
 
-        public UnderlayButton setImageColor(int imageColor) {
+        public BelowButton setImageColor(int imageColor) {
             this.imageColor = imageColor;
             return this;
         }
@@ -364,7 +356,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return buttonTextSize;
         }
 
-        public UnderlayButton setButtonTextSize(int buttonTextSize) {
+        public BelowButton setButtonTextSize(int buttonTextSize) {
             this.buttonTextSize = buttonTextSize;
             return this;
         }
@@ -373,16 +365,16 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return buttonCornerRadius;
         }
 
-        public UnderlayButton setButtonCornerRadius(int buttonCornerRadius) {
+        public BelowButton setButtonCornerRadius(int buttonCornerRadius) {
             this.buttonCornerRadius = buttonCornerRadius;
             return this;
         }
 
-        public UnderlayButtonClickListener getClickListener() {
+        public BelowButtonClickListener getClickListener() {
             return clickListener;
         }
 
-        public void setClickListener(UnderlayButtonClickListener clickListener) {
+        public void setClickListener(BelowButtonClickListener clickListener) {
             this.clickListener = clickListener;
         }
 
@@ -395,7 +387,7 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             return false;
         }
 
-        public void onDraw(Canvas c, RectF rect, int pos) {
+        public void draw(Canvas c, RectF rect, int pos) {
             Paint p = new Paint();
 
             p.setColor(this.buttonBackgroundColor);
@@ -424,10 +416,8 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
                 bitmap = Bitmap.createScaledBitmap(bitmap, 96, 96, false);
                 top = button.centerY() - (bitmap.getWidth() / 2);
             }
-            //float xx = cWidth / 2f - bitmap.getWidth() / 2 - r.left + 5;
 
             c.drawBitmap(bitmap, button.centerX() - (bitmap.getWidth() / 2), top, p);
-
         }
 
         private void drawText(String text, Canvas c, RectF button, Paint p) {
@@ -461,13 +451,9 @@ public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
             }
             return bitmap;
         }
+    }
 
-        // эффект нажатия кнопки
-        public void runAnimationButton(View view) {
-            Animation animation = AnimationUtils.loadAnimation(context.getApplicationContext(),
-                    R.anim.image_button_animation);
-
-            view.startAnimation(animation);
-        }
+    public interface BelowButtonClickListener {
+        void onClick(View view, int pos);
     }
 }

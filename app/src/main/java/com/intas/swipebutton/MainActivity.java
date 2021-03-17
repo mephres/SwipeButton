@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         List<String> data = new ArrayList();
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 0; i <= 20; i++) {
             data.add("Item " + i);
         }
 
@@ -42,23 +37,23 @@ public class MainActivity extends AppCompatActivity {
         SwipeHelper swipeHelper = new SwipeHelper(this) {
             @SuppressLint("ResourceType")
             @Override
-            public void instantiateRightUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+            public void createRightButton(RecyclerView.ViewHolder viewHolder, List<BelowButton> belowButtons) {
 
-                SwipeHelper.UnderlayButton deleteButton = new SwipeHelper.UnderlayButton(getApplicationContext())
+                BelowButton deleteButton = new BelowButton(getApplicationContext())
                         .setText("Delete")
                         .setButtonTextSize(14)
                         .setImage(R.drawable.ic_baseline_delete_48)
                         .setButtonBackgroundColor(getResources().getColor(R.color.grey_300))
                         .setTextColor(getResources().getColor(R.color.red_600))
                         .setImageColor(getResources().getColor(R.color.red_600));
-                deleteButton.setClickListener(new UnderlayButtonClickListener() {
+                deleteButton.setClickListener(new BelowButtonClickListener() {
                     @Override
                     public void onClick(View view, int pos) {
                         final String item = itemAdapter.getData().get(pos);
                         itemAdapter.removeItem(pos);
 
-                        Snackbar snackbar = Snackbar.make(recyclerView, "Item was removed from the list.", Snackbar.LENGTH_LONG);
-                        snackbar.setAction("UNDO", new View.OnClickListener() {
+                        Snackbar snackbar = Snackbar.make(recyclerView, "Запись удалена", Snackbar.LENGTH_LONG);
+                        snackbar.setAction("Восстановить", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 itemAdapter.restoreItem(item, pos);
@@ -70,26 +65,27 @@ public class MainActivity extends AppCompatActivity {
                         snackbar.show();
                     }
                 });
-                SwipeHelper.UnderlayButton likeButton = new SwipeHelper.UnderlayButton(getApplicationContext())
+                BelowButton likeButton = new BelowButton(getApplicationContext())
                         .setText("Like it")
                         .setButtonTextSize(18)
                         //.setImage(R.drawable.ic_baseline_thumb_up_alt_48)
                         .setButtonBackgroundColor(getResources().getColor(R.color.red_500))
                         .setTextColor(getResources().getColor(R.color.white))
                         .setImageColor(getResources().getColor(R.color.white));
-                likeButton.setClickListener(new UnderlayButtonClickListener() {
+                likeButton.setClickListener(new BelowButtonClickListener() {
                     @Override
                     public void onClick(View view, int pos) {
                         final String item = itemAdapter.getData().get(pos);
+                        Toast.makeText(getApplicationContext(), "Like it. Позиция - " + pos, Toast.LENGTH_SHORT).show();
                     }
                 });
-                underlayButtons.add(deleteButton);
-                underlayButtons.add(likeButton);
+                belowButtons.add(deleteButton);
+                belowButtons.add(likeButton);
             }
 
             @Override
-            public void instantiateLeftUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                SwipeHelper.UnderlayButton moveButton = new SwipeHelper.UnderlayButton(getApplicationContext())
+            public void createLeftButton(RecyclerView.ViewHolder viewHolder, List<BelowButton> belowButtons) {
+                BelowButton moveButton = new BelowButton(getApplicationContext())
                         .setText("Share it")
                         .setButtonTextSize(10)
                         .setImage(R.drawable.ic_baseline_share_24)
@@ -97,25 +93,18 @@ public class MainActivity extends AppCompatActivity {
                         .setButtonBackgroundColor(getResources().getColor(R.color.blue_700))
                         .setTextColor(getResources().getColor(R.color.white))
                         .setImageColor(getResources().getColor(R.color.white));
-                moveButton.setClickListener(new UnderlayButtonClickListener() {
+                moveButton.setClickListener(new BelowButtonClickListener() {
                     @Override
                     public void onClick(View view, int pos) {
                         final String item = itemAdapter.getData().get(pos);
+                        Toast.makeText(getApplicationContext(), "Share it. Позиция - " + pos, Toast.LENGTH_SHORT).show();
                     }
                 });
-                underlayButtons.add(moveButton);
+                belowButtons.add(moveButton);
             }
         };
         swipeHelper.setButtonMargin(10);
         swipeHelper.setButtonWidth(300);
         swipeHelper.attachToRecyclerView(recyclerView);
-    }
-
-    // эффект нажатия кнопки
-    public void runAnimationButton(@NotNull View view) {
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.image_button_animation);
-
-        view.startAnimation(animation);
     }
 }
